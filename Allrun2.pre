@@ -1,0 +1,29 @@
+#!/bin/bash --login
+  
+#SBATCH --job-name=testExtrude
+#SBATCH --partition=work
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=5G
+#SBATCH --time=00:05:00
+
+module load singularity/4.1.0-mpi
+
+containerImage=/software/projects/pawsey0386/mzering/singularity/OpenFOAM/openfoam_2206_w2f_v2.sif
+
+srun -n 1 singularity exec $containerImage extrudeMesh  >> log.extrudeMesh
+
+sed -i '/front/,/}/s/type[[:space:]]*wall;/type            empty;/' constant/polyMesh/boundary
+sed -i '/front/,/}/s/inGroups[[:space:]]*1(wall);//' constant/polyMesh/boundary
+sed -i '/back/,/}/s/type[[:space:]]*wall;/type            empty;/' constant/polyMesh/boundary
+sed -i '/back/,/}/s/inGroups[[:space:]]*1(wall);//' constant/polyMesh/boundary
+
+
+cp -r 0.org 0
+
+
+srun -n 1 singularity exec $containerImage setWaveParameters  >>log.setWaveParameters
+srun -n 1 singularity exec $containerImage setWaveField  >>log.setWaveField
+srun -n 1 singularity exec $containerImage waveGaugesNProbes  >> log.waveGaugesNProbes
+srun -n 1 singularity exec $containerImage decomposePar  >>log.decomposePar

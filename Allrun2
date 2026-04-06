@@ -1,0 +1,15 @@
+#!/bin/bash --login
+  
+#SBATCH --job-name=URw0m0
+#SBATCH --partition=work
+#SBATCH --ntasks=20
+#SBATCH --ntasks-per-node=20
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=12:00:00
+
+module load singularity/4.1.0-mpi
+
+containerImage=/software/projects/pawsey0386/mzering/singularity/OpenFOAM/openfoam_2206_w2f_v2.sif
+
+srun -n 20 singularity exec $containerImage waveFoam  -parallel >> log.waveFoam

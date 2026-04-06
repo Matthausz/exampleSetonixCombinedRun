@@ -1,0 +1,79 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application waveFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         35;
+
+deltaT          0.00075;
+
+writeControl    timeStep;
+
+writeInterval   1000;
+
+purgeWrite      3;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable no;
+
+adjustTimeStep   no;
+
+maxCo           0.5;
+
+maxAlphaCo      0.5;
+
+maxDeltaT       1;
+
+functions
+{
+    #includeIfPresent "../waveGaugesNProbes/surfaceElevationIncident_controlDict";
+    #includeIfPresent "../waveGaugesNProbes/surfaceElevationTransmitted_controlDict";
+    
+    #includeIfPresent "../waveGaugesNProbes/surfaceElevationCircle_controlDict";
+    
+    //#includeIfPresent "../waveGaugesNProbes/surfaceElevationCircle_controlDict";
+
+
+    force
+    {
+        type            forces;
+        libs ("libforces.so");
+        patches         (myCircle);
+	    writeControl	timeStep;
+        writeInterval   25;
+        origin         (11 0 -0.03);
+        CofR         (11 0 -0.03);
+
+    }
+}
+
+
+// ************************************************************************* //

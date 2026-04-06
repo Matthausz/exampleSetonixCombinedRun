@@ -1,0 +1,70 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      loggingProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceElevationIncident
+{
+    type waveGauge;
+
+    pointDistribution lineDistribution;
+    N 19;
+    linestart (1.5 -0.1 0.005);
+    lineend   (10.5 -0.1 0.005);
+    add       ( 0 0.2 0);
+    axis      y;
+    stretch 1.;
+
+    // REQURIED ONLY FOR NEW FUNCTIONOBJECT IMPLEMENTATION
+    writeControl timeStep;
+    writeInterval 25;
+}
+surfaceElevationCircle
+{
+    type waveGauge;
+
+    pointDistribution lineDistribution;
+    N 2;
+    linestart (10.8 -0.1 0.005);
+    lineend   (11.2 -0.1 0.005);
+    add       ( 0 0.2 0);
+    axis      y;
+    stretch 1.;
+
+    // REQURIED ONLY FOR NEW FUNCTIONOBJECT IMPLEMENTATION
+    writeControl timeStep;
+    writeInterval 25;
+}
+
+
+
+surfaceElevationTransmitted
+{
+    type waveGauge;
+
+    pointDistribution lineDistribution;
+    N 29;
+    linestart (11.5 -0.1 0.005);
+    lineend   (25.5 -0.1 0.005);
+    add       ( 0 0.2 0);
+    axis      y;
+    stretch 1.;
+
+    // REQURIED ONLY FOR NEW FUNCTIONOBJECT IMPLEMENTATION
+    writeControl timeStep;
+    writeInterval 25;
+}
+
+
+// ************************************************************************* //
